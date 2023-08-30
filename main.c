@@ -14,18 +14,47 @@ char **arguments;
  */
 int main(int argc, char **argv)
 {
-	stack_t *top = NULL;
-	char *file_name = NULL;
-	unsigned int lnumber = 1;
+	stack_t *sp = NULL;
 	FILE *bytecode_fp;
+	char *command = NULL, *lineptr = NULL;
+	unsigned int i, j, lnumber;
+	instruction_t *ops[8];
 
 	_noargs(argc);
-	file_name = argv[1];
-	bytecode_fp = fopen(file_name, "r");
-	file_openerror(file_name, bytecode_fp);
-
-	run_monty(&top, bytecode_fp, lnumber);
-	free_stack(top);
+	bytecode_fp = fopen(argv[1], "r");
+	/* file_openerror(file_name, bytecode_fp); */
+	create_ops(ops);
+	while ((lineptr = read_line(bytecode_fp)) != NULL)
+	{
+		if (_strlen(lineptr) == 0 || lineptr[0] == '\0' || lineptr[0] == '\n')
+		{
+			free_null(lineptr); /* lineptr = NULL; */
+			continue;
+		}
+		normalize_wspace(lineptr);
+		if (_strlen(lineptr) == 0)
+		{
+			free_null(lineptr); /* lineptr = NULL; */
+			continue;
+		}
+		arguments = _strtok(lineptr, " ");
+		command = arguments[0];
+		for (i = 0; i < 7 && ops[i] != NULL; i++)
+		{
+			if (strcmp(command, ops[i]->opcode) == 0)
+				break;
+		}
+		if (ops[i] != NULL)
+		{ /* handle SIGSEV when push is called noargs */
+			(ops[i]->f)(&sp, lnumber);
+			free_args(arguments);
+			lnumber++;
+			continue;
+		}
+		invalid_instruction(lnumber, command);
+	}
+	clean_ops(ops, 7);
+	free_stack(sp);
 	fclose(bytecode_fp);
 	return (0);
 }
@@ -66,9 +95,8 @@ void create_ops(instruction_t **ops)
 void clean_ops(instruction_t *ops[], size_t size_ops)
 {
 	size_t i;
-	(void)size_ops;
 
-	for (i = 0; ops[i] != NULL; i++)
+	for (i = 0; i < size_ops && ops[i] != NULL; i++)
 		free(ops[i]);
 }
 
