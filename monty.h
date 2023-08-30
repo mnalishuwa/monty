@@ -1,7 +1,6 @@
 #ifndef MONTY_H
 #define MONTY_H
 
-#include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stddef.h>
@@ -71,7 +70,7 @@ int _noargs(int number_ofargs);
 void concat_withsep(char *dest, char *s1, char *s2, char sep);
 void del_twspace(char *s);
 void free_args(char **args);
-/* int free_null(char *dstr); */
+int free_null(char *dstr);
 int _isdigit(int c);
 int _isnum(char *str);
 int _len_args(char **args);

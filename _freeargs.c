@@ -24,7 +24,7 @@ void free_args(char **args)
 			free(args[i]);
 		args[i] = NULL;
 	}
-	free(args);
+	/* free(args); */
 	args = NULL;
 }
 

@@ -17,11 +17,9 @@ char **_strtok(char *_str, const char *_delim)
 	char *begin = NULL, *end, *dptr;
 	size_t wlength, wcnt = 0, dlength, slength;
 
-	if (_str == NULL || _delim == NULL)
-	{
-		perror("error: _strtok passed null\n");
-		return (NULL);
-	}
+	if (_str == NULL || _strlen(_str) == 0 || _delim == NULL)
+		return (NULL); /* printf("str = NULL\n"); */
+
 	begin = _str; /* pointer to hold beginning of token */
 	end = _str; /* pointer to hold end of token */
 	dlength = _strlen((char *)_delim); /* delimiter length */

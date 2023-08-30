@@ -20,24 +20,24 @@ void push(stack_t **sp, unsigned int line_number)
 	}
 
 	new_node = malloc(sizeof(stack_t));
-/* if (new_node == NULL || sp == NULL) */
-/* return (NULL); */
 	memory_error(new_node);
 	new_node->n = atoi(arguments[1]);
 	new_node->prev = NULL;
 	new_node->next = NULL;
 
+	if (sp == NULL)
+	{
+		sp = &new_node;
+		return;
+	}
 	if (*sp == NULL)
 	{
 		*sp = new_node;
-/* return (new_node); */
+		return;
 	}
-
 	new_node->next = *sp;
 	(*sp)->prev = new_node;
 	*sp = new_node;
-
-/* return (new_node); */
 }
 
 /**

@@ -80,7 +80,7 @@ int cant_push(unsigned int line_number)
 	ebuffer = malloc(sizeof(char) * bsize);
 	if (ebuffer == NULL)
 	{
-		perror("cant_push: malloc failed");
+		/* perror("cant_push: malloc failed"); */
 		return (1);
 	}
 	snprintf(ebuffer, bsize, "L%u: usage: push integer", line_number);
