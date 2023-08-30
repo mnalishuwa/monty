@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 	stack_t *sp = NULL;
 	FILE *bytecode_fp;
 	char *command = NULL, *lineptr = NULL;
-	unsigned int i, j, lnumber;
+	unsigned int i, lnumber;
 	instruction_t *ops[8];
 
 	_noargs(argc);
